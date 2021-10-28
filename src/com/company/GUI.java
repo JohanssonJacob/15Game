@@ -1,7 +1,7 @@
 package com.company;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
+import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,24 +10,28 @@ import java.util.Random;
 public class GUI extends JFrame implements ActionListener {
 
     JButton resetButton = new JButton("Reset");
-    JPanel slidePanel = new JPanel();
-    JPanel bottomPanel = new JPanel();
+    JPanel puzzlePanel = new JPanel();
+    JPanel resetPanel = new JPanel();
     JButton[] buttons = new JButton[16];
     String blankButton = " ";
+    Color buttonColor = new Color(153, 255, 153);
+    Color textColor = new Color(0, 75, 0);
+    Color resetColor = new Color(102, 102, 255);
 
 
     public GUI() {
         setTitle("15-spel");
-        add(slidePanel, BorderLayout.CENTER);
-        add(bottomPanel, BorderLayout.SOUTH);
-        slidePanel.setBackground(Color.WHITE);
-        bottomPanel.setBackground(Color.LIGHT_GRAY);
-        bottomPanel.add(resetButton);
-        resetButton.setBackground(Color.LIGHT_GRAY);
-        resetButton.setBorder(new LineBorder(Color.DARK_GRAY));
+        add(puzzlePanel, BorderLayout.CENTER);
+        add(resetPanel, BorderLayout.SOUTH);
+        puzzlePanel.setBackground(Color.WHITE);
+        resetPanel.setBackground(Color.white);
+        resetPanel.add(resetButton);
+        resetButton.setBackground(resetColor);
+        resetButton.setForeground(Color.white);
+        resetButton.setBorder(new EtchedBorder(EtchedBorder.RAISED));
         resetButton.setPreferredSize(new Dimension(100,50));
-        slidePanel.setPreferredSize(new Dimension(400,400));
-        slidePanel.setLayout(new GridLayout(4,4));
+        puzzlePanel.setPreferredSize(new Dimension(400,400));
+        puzzlePanel.setLayout(new GridLayout(4,4));
 
         addButtons();
         for (JButton button : buttons) {
@@ -35,37 +39,36 @@ public class GUI extends JFrame implements ActionListener {
         }
         resetButton.addActionListener(this);
 
-
         setSize(500,500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(true);
+        setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
         randomize();
-
-
     }
 
     public void addButtons() {
         for (int i = 0; i < buttons.length; i++) {
             if (i != 15) {
                 buttons[i] = new JButton("" +(i + 1));
-                buttons[i].setBackground(Color.LIGHT_GRAY);
-                buttons[i].setFont(new Font("Arial", Font.BOLD, 50));
-                buttons[i].setBorder(new LineBorder(Color.DARK_GRAY));
+                buttons[i].setBackground(buttonColor);
+                buttons[i].setFont(new Font("Helvetica", Font.BOLD, 45));
+                buttons[i].setForeground(textColor);
+                buttons[i].setBorder(new EtchedBorder(EtchedBorder.RAISED));
                 buttons[i].setVisible(true);
             } else {
                 buttons[15] = new JButton(blankButton);
-                buttons[15].setBackground(Color.LIGHT_GRAY);
-                buttons[15].setFont(new Font("Arial", Font.BOLD, 50));
-                buttons[15].setBorder(new LineBorder(Color.DARK_GRAY));
+                buttons[15].setBackground(buttonColor);
+                buttons[i].setForeground(textColor);
+                buttons[15].setFont(new Font("Helvetica", Font.BOLD, 45));
+                buttons[15].setBorder(new EtchedBorder(EtchedBorder.RAISED));
                 buttons[15].setVisible(false);
             }
 
 
         }
         for (JButton button : buttons) {
-            slidePanel.add(button);
+            puzzlePanel.add(button);
         }
     }
     public void randomize() {
@@ -79,7 +82,7 @@ public class GUI extends JFrame implements ActionListener {
         }
         for (int i = 0; i < tileNumbers.length; i++) {
             buttons[i].setText(String.valueOf(tileNumbers[i]));
-            buttons[i].setBackground(Color.LIGHT_GRAY);
+            buttons[i].setBackground(buttonColor);
         }
         buttons[15].setText(blankButton);
         buttons[15].setVisible(false);
@@ -91,7 +94,7 @@ public class GUI extends JFrame implements ActionListener {
         buttons[blankButtonIndex].setVisible(true);
         buttons[clickedButtonIndex].setText(blankButton);
         buttons[clickedButtonIndex].setBackground(Color.white);
-        buttons[blankButtonIndex].setBackground(Color.LIGHT_GRAY);
+        buttons[blankButtonIndex].setBackground(buttonColor);
     }
 
     public void gameHandler(int clickedButtonIndex, int checkPos1, int checkPos2, int checkPos3, int checkPos4) {
@@ -123,6 +126,7 @@ public class GUI extends JFrame implements ActionListener {
             gameWon();
         }
     }
+
     public boolean isSolved() {
         String solved = "123456789101112131415 ";
         StringBuilder s = new StringBuilder();
@@ -131,6 +135,7 @@ public class GUI extends JFrame implements ActionListener {
         }
         return solved.equals(s.toString());
     }
+
     public void gameWon() {
         JOptionPane.showMessageDialog(this, "Du vann!");
         randomize();
@@ -177,8 +182,6 @@ public class GUI extends JFrame implements ActionListener {
         } else if (e.getSource() == buttons[15]) {
             gameHandler(15, 14, 11, notUsed, notUsed);
         }
-
-
     }
 
 
