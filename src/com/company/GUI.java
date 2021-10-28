@@ -59,7 +59,7 @@ public class GUI extends JFrame implements ActionListener {
             } else {
                 buttons[15] = new JButton(blankButton);
                 buttons[15].setBackground(buttonColor);
-                buttons[i].setForeground(textColor);
+                buttons[15].setForeground(textColor);
                 buttons[15].setFont(new Font("Helvetica", Font.BOLD, 45));
                 buttons[15].setBorder(new EtchedBorder(EtchedBorder.RAISED));
                 buttons[15].setVisible(false);
